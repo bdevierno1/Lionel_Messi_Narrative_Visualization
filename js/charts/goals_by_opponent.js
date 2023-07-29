@@ -72,13 +72,13 @@ async function goals_by_opponent(svg_width, svg_height, svg_id = '#goals-by-oppo
                 .attr("transform", "translate(" + (xScale(d.Opponent) + xScale.bandwidth() / 2) + "," + (yScale(d.Goals) - 10) + ")");
 
             tooltip.append("text")
-                .attr("y", -5)
+                .attr("y", -30)
                 .style("text-anchor", "middle")
                 .style("font-weight", "bold")
                 .text("Goals: " + d.Goals);
 
             tooltip.append("text")
-                .attr("y", 15)
+                .attr("y", -15)
                 .style("text-anchor", "middle")
                 .text("Opponent: " + d.Opponent);
         })
