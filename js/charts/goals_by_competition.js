@@ -68,13 +68,13 @@ async function goals_by_competition(svg_width, svg_height, svg_id='#goals-by-com
                 .attr("transform", "translate(" + (xScale(d.Competition) + xScale.bandwidth() / 2) + "," + (yScale(d.Goals) - 10) + ")");
 
             tooltip.append("text")
-                .attr("y", -5)
+                .attr("y", -30)
                 .style("text-anchor", "middle")
                 .style("font-weight", "bold")
                 .text("Goals: " + d.Goals);
 
             tooltip.append("text")
-                .attr("y", 15)
+                .attr("y", -15)
                 .style("text-anchor", "middle")
                 .text("Competition: " + d.Competition);
         })
