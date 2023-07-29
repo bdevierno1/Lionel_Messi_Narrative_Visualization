@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lionel Messi Narrative Visualization</title>
+  <!-- Include D3.js library -->
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="js/packages/d3-annotation.min.js"></script>
+</head>
+
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#" onClick="updateChartFromNav(2004, 2020, 'none', 'barcelona')">Barcelona</a></li>
+      <li><a href="#" onClick="updateChartFromNav(2021, 2023, 'none', 'psg')">PSG</a></li>
+      <li><a href="#" onClick="updateChartFromNav(2004, 2023, 'flex', 'all')">All</a></li>
+    </ul>
+  </nav>
+
+  <div class="flex-container">
+    <p>Data Sources:&nbsp;</p>
+    <a href="https://www.kaggle.com/datasets/azminetoushikwasi/-lionel-messi-all-club-goals?resource=download">Lionel
+      Messi All Club Goals Dataset</a>
+  </div>
+
+  <!-- Description Section -->
+  <div class="description">
+    <p id="description-content">
+      Hover over the data points in the charts to view specific goal details and filter over specific seasons.
+    </p>
+  </div>
+
+  <!-- Filter buttons for start and end years -->
+  <div class="filter-container">
+    <label for="start-year">Start Year:</label>
+    <input type="number" id="start-year" min="2004" max="2023" step="1" value="2004" disabled>
+    <label for="end-year">End Year:</label>
+    <input type="number" id="end-year" min="2004" max="2023" step="1" value="2023" disabled>
+    <button onclick="filterData()" disabled>Apply Filters</button>
+  </div>
+
+  <!-- SVG container for the first chart -->
+  <svg id="messi-goals-chart" width="800" height="700"></svg>
+
+  <!-- SVG container for the second chart -->
+  <svg id="goals-by-competition-chart" width="800" height="700"></svg>
+
+  <!-- SVG container for the third chart (pie chart) -->
+  <svg id="goals-by-position-chart" width="800" height="700"></svg>
+
+  <!-- SVG container for the fourth chart -->
+  <svg id="goals-by-opponent-chart" width="800" height="700"></svg>
+
+  <!-- JavaScript code for rendering the charts -->
+  <script src="js/charts/goals_per_season.js"></script>
+  <script src="js/charts/goals_by_competition.js"></script>
+  <script src="js/charts/goals_by_position.js"></script>
+  <script src="js/charts/goals_by_opponent.js"></script>
+
+  <script>
+    const descriptions = {
+      'barcelona': "Explore Lionel Messi's legendary career at FC Barcelona and meteoric rise to the top of football. Hover over the data points in the charts to view specific goal details. Continue to view the next page <a href=\"#\" onClick=\"updateChartFromNav(2021, 2023, 'none', 'psg')\">here</a>.",
+      'psg': "Explore Messi chapter at Paris Saint-Germain (PSG). Hover over the data points in the charts to view specific goal details. Continue to view the next page <a href=\"#\" onClick=\"updateChartFromNav(2004, 2023, 'flex', 'all')\">here</a>.",
+      'all': 'Explore the entire dataset and observe the amazing goal-scoring prowess of Messi! Hover over the data points in the charts to view specific goal details and filter over specific seasons.'
+    };
+
+
+    function updateDescriptionContent(currentPage) {
+      const descriptionDiv = document.querySelector('.description');
+      const descriptionContent = document.getElementById('description-content');
+      const description = descriptions[currentPage];
+      descriptionContent.innerHTML = description;
+    }
+
+    const startYear = 2004;
+    const endYear = 2020;
+    updateDescriptionContent('barcelona')
+    goals_per_season(800, 700, '#messi-goals-chart', startYear, endYear, 'barcelona');
+    goals_by_competition(800, 700, '#goals-by-competition-chart', startYear, endYear);
+    goals_by_position(800, 700, '#goals-by-position-chart', startYear, endYear);
+    goals_by_opponent(800, 700, '#goals-by-opponent-chart', startYear, endYear, 'barcelona');
+
+    function clearChart(svg_id) {
+      d3.select(svg_id).selectAll("*").remove();
+    }
+
+    function clearAllCharts() {
+      clearChart('#messi-goals-chart');
+      clearChart('#goals-by-competition-chart');
+      clearChart('#goals-by-position-chart');
+      clearChart('#goals-by-opponent-chart');
+    }
+
+    function updateChart(startYear, endYear, annotationType) {
+      clearAllCharts();
+
+      goals_per_season(800, 700, '#messi-goals-chart', startYear, endYear, annotationType);
+      goals_by_competition(800, 700, '#goals-by-competition-chart', startYear, endYear);
+      goals_by_position(800, 700, '#goals-by-position-chart', startYear, endYear);
+      goals_by_opponent(800, 700, '#goals-by-opponent-chart', startYear, endYear, annotationType);
+
+      // Enable filter inputs and button when updating from All tab
+      document.getElementById('start-year').disabled = false;
+      document.getElementById('end-year').disabled = false;
+      document.querySelector('.filter-container button').disabled = false;
+
+      updateDescriptionContent(annotationType)
+    }
+
+    function filterData() {
+      const startYear = parseInt(document.getElementById('start-year').value);
+      const endYear = parseInt(document.getElementById('end-year').value);
+      updateChart(startYear, endYear, annotationType);
+    }
+
+    function updateChartFromNav(startYear, endYear, disabled, annotationType) {
+      updateChart(startYear, endYear, annotationType);
+      // Disable filter inputs and button when updating from specific tabs
+      document.querySelector('.filter-container').style.display = disabled;
+    }
+  </script>
+</body>
+
+</html>
