@@ -114,7 +114,7 @@
     function filterData() {
       const startYear = parseInt(document.getElementById('start-year').value);
       const endYear = parseInt(document.getElementById('end-year').value);
-      updateChart(startYear, endYear, annotationType);
+      updateChart(startYear, endYear, 'all');
     }
 
     function updateChartFromNav(startYear, endYear, disabled, annotationType) {
