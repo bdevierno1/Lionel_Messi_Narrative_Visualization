@@ -5,7 +5,6 @@ async function goals_by_position(svg_width, svg_height, svg_id = '#goals-by-posi
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
 
-    // Retrieve data - assuming you have fetched the goals by playing position dataset as "positionData"
     const filePath = "main/js/data/data_cleaned.csv";
     var messiData = await d3.csv(`https://raw.githubusercontent.com/bdevierno1/Lionel_Messi_Narrative_Visualization/${filePath}`);
 

@@ -4,8 +4,11 @@ async function goals_per_season(svg_width, svg_height, svg_id = '#messi-goals-ch
     const margin = { top: 80, right: 100, bottom: 80, left: 100 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
+    var defaultSetting = false;
+    if (startYear === 2004 && endYear === 2020) {
+        defaultSetting = true;
+    }
 
-    // Retrieve data - assuming you have fetched the Lionel Messi dataset as "messiData"
     const filePath = "main/js/data/goals_per_season.csv";
     const messiData = await d3.csv(`https://raw.githubusercontent.com/bdevierno1/Lionel_Messi_Narrative_Visualization/${filePath}`);
 
@@ -120,7 +123,7 @@ async function goals_per_season(svg_width, svg_height, svg_id = '#messi-goals-ch
         annotationLabel = `Maximum Goals: ${maxGoalsData.goals}. Despite scoring a substantial number of goals, Lionel Messi's goal tally in PSG did not match the extraordinary standards he had previously set throughout his illustrious career. This dip in performance left fans frustrated, and unfortunately, his time at the club was cut short.`;
         dx -= 5;
     }
-    if (annotationType === 'psg' || annotationType === 'barcelona') {
+    if ((annotationType === 'psg' || annotationType === 'barcelona') && defaultSetting === true) {
         const annotations = [{
             type: d3.annotationCalloutCircle,
             connector: { end: "arrow" },

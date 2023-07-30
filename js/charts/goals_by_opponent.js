@@ -4,8 +4,11 @@ async function goals_by_opponent(svg_width, svg_height, svg_id = '#goals-by-oppo
     const margin = { top: 250, right: 100, bottom: 150, left: 100 };
     const chartWidth = width - margin.left - margin.right;
     const chartHeight = height - margin.top - margin.bottom;
+    var defaultSetting = false;
+    if (startYear === 2004 && endYear === 2020) {
+        defaultSetting = true;
+    }
 
-    // Retrieve data - assuming you have fetched the goals by opponent dataset as "opponentData"
     const filePath = "main/js/data/data_cleaned.csv";
     var messiData = await d3.csv(`https://raw.githubusercontent.com/bdevierno1/Lionel_Messi_Narrative_Visualization/${filePath}`);
 
@@ -117,7 +120,7 @@ async function goals_by_opponent(svg_width, svg_height, svg_id = '#goals-by-oppo
         .style("fill", "black")
         .text("Number of Goals");
 
-    if (annotationType === "barcelona") {
+    if (annotationType === "barcelona" && defaultSetting === true) {
         const defaultAnnotationData = data[0];
         const defaultX = xScale(defaultAnnotationData.Opponent) + xScale.bandwidth() / 2;
         const defaultY = yScale(defaultAnnotationData.Goals) - 10;
